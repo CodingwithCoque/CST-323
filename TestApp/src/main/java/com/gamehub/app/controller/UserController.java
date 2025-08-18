@@ -46,4 +46,15 @@ public class UserController {
         userRepository.deleteById(id);
         return "redirect:/";
     }
+    
+    @GetMapping("/user/{id}")
+    public String viewUser(@PathVariable("id") Integer id, Model model) {
+        // Fetch the user from the database
+        User user = userRepository.findById(id)
+                                  .orElseThrow(() -> new IllegalArgumentException("Invalid user Id: " + id));
+        
+        // Add the user to the model to be used in the view
+        model.addAttribute("user", user);
+        return "profile";
+    }
 }
